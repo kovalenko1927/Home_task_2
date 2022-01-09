@@ -10,6 +10,7 @@
     <div class="alert alert-info">
         <p>{{ article.email }}</p>
         <p><b>Дата: {{ article.date.date() }}</b></p>
+        <a href="/all_users/{{ article.id }}/delete" class="btn btn-danger">Удалить</a>
     </div>
 </div>
 {% endblock %}

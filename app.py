@@ -19,7 +19,6 @@ class Article(db.Model):
         return '<Article %r' %self.id
 
 
-#здесь будем запрашивать данные пользователя (не забыть за кнопку home на каждой стрнаице)
 @app.route('/', methods=['POST', 'GET'])
 @app.route('/hello_user')
 def create_article():
@@ -32,7 +31,6 @@ def create_article():
             try:
                 db.session.add(article)
                 db.session.commit()
-                #НЕ РАБОТАЛ РЕДИРЕКТ
                 return render_template("hello_user.html", article=article)
             except Exception:
                 return "Произошла ошибка"
@@ -40,22 +38,30 @@ def create_article():
     return render_template("create_article.html")
 
 
-#тут будет страница на которую выводим всех пользователей
-#ЕСЛИ НАЖМУТ НА КНОПКУ ВСЕ ПОЛЬЗОВАТЕЛИ СРАЗУ НУЖНО ВЫВЕСТИ СООБЩЕНИЕ ОБ ОШИБКЕ
 @app.route('/all_users')
 def all_users():
     articles = Article.query.order_by(Article.date.desc()).all()
     return render_template("all_users.html", articles=articles)
 
 
-#Здесь будет информация про каждого пользователя при нажатии "Детальнее"
 @app.route('/all_users/<int:id>')
 def user_info(id):
     article = Article.query.get(id)
     return render_template("user_info.html", article=article)
 
 
-#тут будем выводить данные про пользователя и приветствовать его
+@app.route('/all_users/<int:id>/delete')
+def user_delete(id):
+    article = Article.query.get_or_404(id)
+
+    try:
+        db.session.delete(article)
+        db.session.commit()
+        return redirect('/all_users')
+    except:
+        return "При удалении статьи произошла ошибка!"
+
+
 @app.route('/user')
 def hello_user():
     return render_template("hello_user.html")
