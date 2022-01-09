@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Все зарегистрированные пользователи сайта
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Все зарегистрированные пользователи</h1>
+
+    {% for element in articles %}
+    <div class="alert alert-info">
+        <h2>{{ element.name }}</h2>
+        <p>{{ element.email }}</p>
+        <p><b>Дата: {{ element.date.date() }}</b></p>
+        <a href="/all_users/{{ element.id }}" class="btn btn-warning">Детальнее</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
