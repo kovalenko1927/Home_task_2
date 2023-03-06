@@ -59,7 +59,7 @@ def user_delete(id):
         db.session.commit()
         return redirect('/all_users')
     except:
-        return "При удалении статьи произошла ошибка!"
+        return "Error!"
 
 
 @app.route('/user')
